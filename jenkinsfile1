@@ -51,7 +51,7 @@ pipeline {
          stage ('push image to dockerhub'){
                 steps{
                     sh'''
-                    docker push leslie1/jenkins-repo:v1
+                    docker push leslie1/jenkins-repo:V1
                     '''
                 }
             }
@@ -61,7 +61,7 @@ pipeline {
          stage ('running the container'){
             steps{
                 sh '''
-                docker run --name kenan -itd -p80:8080 leslie1/jenkins-repo:v1
+                docker run --name kenan -itd -p80:8080 leslie1/jenkins-repo:V1
                 '''
             }
            }
