@@ -62,7 +62,7 @@ pipeline {
             steps{
                 sh '''
                 docker rm -f $(docker ps -aq) || true 
-                docker run --name kenan1 -itd -p80:8080 leslie1/jenkins-repo:V1
+                sudo docker run --name kenan1 -itd -p80:8080 leslie1/jenkins-repo:V1
                 '''
             }
            }
