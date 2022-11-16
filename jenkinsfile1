@@ -33,7 +33,7 @@ pipeline {
          stage('tag my image'){
                 steps{
                     sh'''
-                    docker tag leslie1/jenkins-repo:v1
+                    docker tag leslie1/jenkins-repo leslie1/jenkins-repo:V1
                     '''
                 }
             }
