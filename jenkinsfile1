@@ -3,7 +3,7 @@ pipeline {
        label ("leslie-agent")
     }
     environment{
-        DOCKERHUB-CREDENTIAL=credential('dockerhub')
+        DOCKERHUB_CREDENTIALS=credentials('dockerhub')
     }
         
     
@@ -42,7 +42,7 @@ pipeline {
          stage ('login to docker hub'){
                 steps{
                     
-                   sh 'echo $DOCKERHUB-CREDENTIAL_PSW | docker login -u $DOCKERHUB-CREDENTIAL_USR --password-stdin'
+                   sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 }
             }    
   
@@ -91,5 +91,6 @@ pipeline {
     }
 
    
+
 
 
