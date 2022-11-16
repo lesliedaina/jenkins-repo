@@ -1,0 +1,95 @@
+pipeline {
+    agent {
+       label ("leslie-agent")
+    }
+    environment{
+        DOCKERHUB-CREDENTIAL=credential('dockerhub')
+    }
+        
+    
+    stages{
+
+        stage('cleaning '){
+            steps{
+                
+                sh '''
+                docker rmi -f $(docker ps -aq) || true
+                
+                '''
+            }
+        }
+    
+    
+          stage('build docker image'){
+            steps{
+                
+                sh '''
+                docker build -t leslie1/jenkins-repo .
+        
+                '''
+            }
+          }  
+
+         stage('tag my image'){
+                steps{
+                    sh'''
+                    docker tag leslie1/jenkins-repo:v1
+                    '''
+                }
+            }
+
+
+         stage ('login to docker hub'){
+                steps{
+                    
+                   sh 'echo $DOCKERHUB-CREDENTIAL_PSW | docker login -u $DOCKERHUB-CREDENTIAL_USR --password-stdin'
+                }
+            }    
+  
+
+
+         stage ('push image to dockerhub'){
+                steps{
+                    sh'''
+                    docker push leslie1/jenkins-repo:v1
+                    '''
+                }
+            }
+
+
+
+         stage ('running the container'){
+            steps{
+                sh '''
+                docker run --name kenan -itd -p80:8080 leslie1/jenkins-repo:v1
+                '''
+            }
+           }
+
+
+
+         stage ('checking my image and my container '){
+             steps{
+                sh'''
+                docker images
+                docker ps -a
+                '''
+             }
+           }
+
+
+
+
+
+
+
+
+
+                                  
+        }
+    
+    }
+
+   
+
+
