@@ -33,7 +33,7 @@ pipeline {
          stage('tag my image'){
                 steps{
                     sh'''
-                    docker tag leslie1/jenkins-repo leslie1/jenkins-repo:V1
+                    docker tag leslie1/jenkins-repo:v1 leslie1/jenkins-repo
                     '''
                 }
             }
@@ -55,21 +55,20 @@ pipeline {
                     '''
                 }
             }
+         
 
 
-
-         stage ('running the container'){
+         #stage ('running the container'){
             steps{
                 sh '''
-                docker rm -f $(docker ps -aq) || true 
-                sudo docker run -i --name kenan1 -p80:8080 leslie1/jenkins-repo:V1
+                docker run --name kenan -itd -p80:8080 leslie1/jenkins-repo:V1
                 '''
             }
            }
 
 
 
-         stage ('checking my image and my container '){
+        # stage ('checking my image and my container '){
              steps{
                 sh'''
                 docker images
@@ -78,7 +77,13 @@ pipeline {
              }
            }
 
-
+        stage ('deployment'){
+            steps{
+                sh'''
+                kubectl apply -f deployment.yaml
+                '''
+            }
+        }
 
 
 
